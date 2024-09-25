@@ -14,7 +14,7 @@ namespace ObjectPoolingSystem
         [SerializeField] private int initialObjectCount;
         [SerializeField] private List<PoolObject> poolItemPrefabs;
         
-        private readonly Dictionary<PoolObjectType, ObjectPool> _poolTypeTpPoolItemDictionary = new();
+        private readonly Dictionary<PoolObjectType, ObjectPool> _poolTypeToPoolItemDictionary = new();
         
         private Transform PooledObjectsParent => _objectPoolContainer.transform;
         
@@ -31,7 +31,7 @@ namespace ObjectPoolingSystem
             {
                 var objectPool = _objectPoolFactory.Create();
                 objectPool.Initialize(PooledObjectsParent, poolObject, initialCount);
-                _poolTypeTpPoolItemDictionary.Add(poolObject.poolObjectType, objectPool);
+                _poolTypeToPoolItemDictionary.Add(poolObject.poolObjectType, objectPool);
             }
             
             _objectPoolContainer.PoolObjects.Clear();
@@ -39,20 +39,20 @@ namespace ObjectPoolingSystem
 
         public PoolObject GetObject(PoolObjectType poolObjectType, Transform parent = null)
         {
-            return _poolTypeTpPoolItemDictionary[poolObjectType].GetPoolObject(parent);
+            return _poolTypeToPoolItemDictionary[poolObjectType].GetPoolObject(parent);
         }
 
-        public int GetActiveObjectCountOfPool(PoolObjectType poolObjectType) => _poolTypeTpPoolItemDictionary[poolObjectType].ActiveObjectCount;
+        public int GetActiveObjectCountOfPool(PoolObjectType poolObjectType) => _poolTypeToPoolItemDictionary[poolObjectType].ActiveObjectCount;
         
         public void ResetObject(PoolObject poolObject, Transform parent = null)
         {
-            var pool = _poolTypeTpPoolItemDictionary[poolObject.poolObjectType];
+            var pool = _poolTypeToPoolItemDictionary[poolObject.poolObjectType];
             pool.ResetPoolObject(parent == null ? PooledObjectsParent : parent, poolObject);
         }
 
         public void ResetPools()
         {
-            foreach (var poolTypeToPoolItem in _poolTypeTpPoolItemDictionary)
+            foreach (var poolTypeToPoolItem in _poolTypeToPoolItemDictionary)
             {
                 poolTypeToPoolItem.Value.StoreObjects();
                 poolTypeToPoolItem.Value.Reset(_objectPoolContainer.transform);

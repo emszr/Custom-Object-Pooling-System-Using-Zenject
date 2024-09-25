@@ -8,12 +8,12 @@ namespace ObjectPoolingSystem
 {
     public class ObjectPool
     {
+        [Inject] private DiContainer _diContainer;
+        [Inject] private ObjectPoolContainer _objectPoolContainer;
+
         private readonly Stack<PoolObject> _pooledObjects = new();
         private readonly HashSet<PoolObject> _activeObjects = new();
         private PoolObject _prefab;
-
-        [Inject] private DiContainer _diContainer;
-        [Inject] private ObjectPoolContainer _objectPoolContainer;
 
         public int PooledObjectCount => _pooledObjects.Count;
         public int ActiveObjectCount => _activeObjects.Count;
