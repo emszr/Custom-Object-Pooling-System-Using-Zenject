@@ -1,0 +1,11 @@
+{
+    "name": "com.emreszr.object-pool",
+    "displayName": "Custom Object Pooling using Zenject",
+    "version": "1.0.0",
+    "unity": "2020.3",
+    "description": "Simple solution for object pooling using Zenject. You have to import Zenject to your project in order to use this package.",
+    "author": {
+        "name": "Emre Sezer",
+        "email": "emre.sezer.2019@gmail.com"
+    }
+}
